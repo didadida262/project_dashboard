@@ -159,38 +159,36 @@ const Dashboard: React.FC = () => {
       {/* 实时统计 */}
       <RealtimeStats />
 
-      {/* 图表区域 - 暂时隐藏，等待真实数据 */}
-      {analyticsData.length > 0 && (
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>访问量趋势</CardTitle>
-              <CardDescription>过去7天的页面访问量变化</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <AnalyticsChart 
-                data={analyticsData}
-                type="line"
-                height={200}
-              />
-            </CardContent>
-          </Card>
+      {/* 图表区域 */}
+      <div className="flex flex-col lg:flex-row gap-2">
+        <Card className="flex-1">
+          <CardHeader>
+            <CardTitle>访问量趋势</CardTitle>
+            <CardDescription>过去7天的页面访问量变化</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AnalyticsChart 
+              data={analyticsData}
+              type="line"
+              height={200}
+            />
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>项目状态分布</CardTitle>
-              <CardDescription>各状态项目的数量统计</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <AnalyticsChart 
-                data={projects}
-                type="pie"
-                height={200}
-              />
-            </CardContent>
-          </Card>
-        </div>
-      )}
+        <Card className="flex-1">
+          <CardHeader>
+            <CardTitle>项目状态分布</CardTitle>
+            <CardDescription>各状态项目的数量统计</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AnalyticsChart 
+              data={projects}
+              type="pie"
+              height={200}
+            />
+          </CardContent>
+        </Card>
+      </div>
 
       {/* 项目列表 */}
       <Card>
