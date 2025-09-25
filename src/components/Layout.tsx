@@ -54,7 +54,7 @@ const Layout: React.FC = () => {
         animate={{ x: sidebarOpen ? 0 : -300 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-48 bg-card border-r border-border',
+          'fixed inset-y-0 left-0 z-50 w-40 bg-card border-r border-border',
           'lg:translate-x-0 lg:static lg:inset-0',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         )}
@@ -123,7 +123,7 @@ const Layout: React.FC = () => {
       </motion.div>
 
       {/* 主内容区 */}
-      <div className="lg:pl-48">
+      <div className="lg:pl-40">
         {/* 顶部导航栏 */}
         <header className="sticky top-0 z-30 flex h-12 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-2">
           <div className="flex items-center space-x-2">

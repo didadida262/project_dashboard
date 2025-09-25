@@ -56,13 +56,13 @@
   body {
     @apply text-foreground;
     background: linear-gradient(135deg, 
-      #667eea 0%, 
-      #764ba2 25%, 
-      #f093fb 50%, 
-      #f5576c 75%, 
-      #4facfe 100%);
+      #ff6b6b 0%, 
+      #4ecdc4 25%, 
+      #45b7d1 50%, 
+      #96ceb4 75%, 
+      #feca57 100%);
     background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    animation: gradientShift 10s ease infinite;
     min-height: 100vh;
   }
 }
