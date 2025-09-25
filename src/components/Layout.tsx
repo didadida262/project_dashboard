@@ -68,7 +68,7 @@ const Layout: React.FC = () => {
         className={cn(
           'fixed inset-y-0 left-0 z-50 bg-card border-r border-border',
           // 移动端：全宽侧边栏
-          isMobile ? 'w-64' : 'w-32',
+          isMobile ? 'w-80' : 'w-64',
           // 桌面端：静态显示
           !isMobile && 'lg:translate-x-0 lg:static lg:inset-0',
           // 移动端：条件显示
@@ -77,12 +77,12 @@ const Layout: React.FC = () => {
       >
         <div className="flex h-full flex-col">
           {/* Logo */}
-          <div className="flex h-10 items-center justify-between px-2">
-            <div className="flex items-center space-x-1">
-              <div className="h-5 w-5 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xs">V</span>
+          <div className="flex h-12 items-center justify-between px-4">
+            <div className="flex items-center space-x-2">
+              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-sm">V</span>
               </div>
-              <span className="text-xs font-semibold">Dash</span>
+              <span className="text-base font-semibold">Vercel Dashboard</span>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
@@ -93,7 +93,7 @@ const Layout: React.FC = () => {
           </div>
 
           {/* 导航菜单 */}
-          <nav className="flex-1 space-y-0.5 px-1 py-1">
+          <nav className="flex-1 space-y-1 px-3 py-3">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
               return (
@@ -101,7 +101,7 @@ const Layout: React.FC = () => {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'flex items-center space-x-1 rounded px-1 py-1 text-xs font-medium transition-colors',
+                    'flex items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                     isActive
                       ? 'bg-primary text-primary-foreground'
                       : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
@@ -109,7 +109,7 @@ const Layout: React.FC = () => {
                   whileHover={{ x: 4 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <item.icon className="h-3 w-3" />
+                  <item.icon className="h-5 w-5" />
                   <span>{item.name}</span>
                 </motion.a>
               );
@@ -141,7 +141,7 @@ const Layout: React.FC = () => {
       {/* 主内容区 */}
       <div className={cn(
         // 桌面端：有左边距
-        !isMobile && 'lg:pl-32',
+        !isMobile && 'lg:pl-64',
         // 移动端：无左边距
         isMobile && 'w-full'
       )}>

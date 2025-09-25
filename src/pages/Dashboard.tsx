@@ -63,11 +63,12 @@ const Dashboard: React.FC = () => {
   const avgResponseTime = realtimeData.reduce((sum, data) => sum + data.avgResponseTime, 0) / realtimeData.length || 0;
   const errorRate = realtimeData.reduce((sum, data) => sum + data.errors, 0) / realtimeData.length || 0;
 
-  const stats = [
+  // 使用真实项目数据更新统计
+  const realStats = [
     {
       title: '总项目数',
       value: totalProjects,
-      change: '+2',
+      change: totalProjects > 0 ? `+${totalProjects}` : '0',
       changeType: 'positive' as const,
       icon: Globe,
       description: '已部署的项目总数'
@@ -75,7 +76,7 @@ const Dashboard: React.FC = () => {
     {
       title: '活跃项目',
       value: activeProjects,
-      change: '+1',
+      change: activeProjects > 0 ? `+${activeProjects}` : '0',
       changeType: 'positive' as const,
       icon: TrendingUp,
       description: '正在运行的项目'
@@ -114,11 +115,14 @@ const Dashboard: React.FC = () => {
     }
   ];
 
+  // 使用真实统计数据
+  const stats = realStats;
+
   return (
-    <div className="p-1 sm:p-2 space-y-2">
+    <div className="p-1 sm:p-2 space-y-1">
 
       {/* 统计卡片 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.title}
