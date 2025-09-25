@@ -148,7 +148,7 @@ const RealtimeStats: React.FC = () => {
                 </motion.div>
               ))
             ) : (
-              <div className="text-center py-4 text-muted-foreground">
+              <div className="text-center py-2 text-muted-foreground">
                 <p className="text-sm">暂无实时数据</p>
                 <p className="text-xs">请确保项目已连接并正常运行</p>
               </div>
