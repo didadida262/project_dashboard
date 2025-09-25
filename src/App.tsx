@@ -7,6 +7,7 @@ import Layout from '@/components/Layout';
 import Dashboard from '@/pages/Dashboard';
 import Projects from '@/pages/Projects';
 import Analytics from '@/pages/Analytics';
+import Config from '@/pages/Config';
 import Settings from '@/pages/Settings';
 import Login from '@/pages/Login';
 import { useToast, Toaster } from '@/components/ui/Toaster';
@@ -57,6 +58,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="projects" element={<Projects />} />
             <Route path="analytics" element={<Analytics />} />
+            <Route path="config" element={<Config />} />
             <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>

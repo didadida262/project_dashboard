@@ -10,7 +10,8 @@ import {
   X,
   Moon,
   Sun,
-  RefreshCw
+  RefreshCw,
+  Cog
 } from 'lucide-react';
 import { useDashboardStore } from '@/store';
 import { cn } from '@/utils';
@@ -24,6 +25,7 @@ const Layout: React.FC = () => {
     { name: '概览', href: '/', icon: LayoutDashboard },
     { name: '项目', href: '/projects', icon: FolderOpen },
     { name: '分析', href: '/analytics', icon: BarChart3 },
+    { name: '配置', href: '/config', icon: Cog },
     { name: '设置', href: '/settings', icon: Settings },
   ];
 
@@ -123,7 +125,7 @@ const Layout: React.FC = () => {
       {/* 主内容区 */}
       <div className="lg:pl-64">
         {/* 顶部导航栏 */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-6">
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setSidebarOpen(true)}
