@@ -1,6 +1,10 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+// 配置dayjs插件
+dayjs.extend(relativeTime);
 
 // 合并CSS类名
 export function cn(...inputs: ClassValue[]) {
