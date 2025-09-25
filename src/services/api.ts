@@ -47,17 +47,13 @@ export class ApiService {
   // 获取Vercel项目列表
   static async getProjects(): Promise<VercelProject[]> {
     try {
-      // 优先使用配置的真实项目数据
+      // 只使用配置的真实项目数据
       const configProjects = this.getConfigProjects();
       if (configProjects.length > 0) {
         return configProjects;
       }
       
-      if (ENV_CONFIG.ENABLE_MOCK_DATA) {
-        // 使用模拟数据
-        return this.getMockProjects();
-      }
-      
+      // 如果没有配置项目，尝试从Vercel API获取
       const response = await api.get('/v1/projects');
       return response.data.projects.map((project: any) => ({
         id: project.id,
@@ -72,8 +68,8 @@ export class ApiService {
       }));
     } catch (error) {
       console.error('获取项目列表失败:', error);
-      // 如果API失败，返回配置项目数据
-      return this.getConfigProjects();
+      // 如果API失败，返回空数组，不显示模拟数据
+      return [];
     }
   }
 
@@ -98,26 +94,6 @@ export class ApiService {
     });
   }
 
-  // 获取模拟项目数据
-  private static getMockProjects(): VercelProject[] {
-    return VERCEL_CONFIG.projectUrls.map((url, index) => {
-      const projectName = url.split('//')[1].split('.')[0];
-      const frameworks = ['Next.js', 'React', 'Vue.js', 'Svelte', 'Angular'];
-      const regions = ['iad1', 'sfo1', 'hnd1', 'sin1', 'fra1', 'lhr1'];
-      
-      return {
-        id: `project-${index + 1}`,
-        name: projectName.charAt(0).toUpperCase() + projectName.slice(1),
-        url: url,
-        framework: frameworks[index % frameworks.length],
-        status: ['READY', 'BUILDING', 'ERROR', 'QUEUED'][index % 4] as any,
-        lastUpdated: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
-        healthScore: Math.floor(Math.random() * 40) + 60,
-        region: regions[index % regions.length],
-        createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString()
-      };
-    });
-  }
 
   // 获取项目分析数据
   static async getAnalytics(projectId: string, timeRange: string): Promise<AnalyticsData[]> {

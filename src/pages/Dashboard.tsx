@@ -37,12 +37,9 @@ const Dashboard: React.FC = () => {
         setLoading('analytics', true);
         setLoading('realtime', true);
 
-        // 模拟数据加载
-        const mockAnalytics = generateMockAnalytics();
-        const mockRealtime = generateMockRealtime();
-        
-        setAnalyticsData(mockAnalytics);
-        setRealtimeData(mockRealtime);
+        // 只加载真实数据，不生成模拟数据
+        setAnalyticsData([]);
+        setRealtimeData([]);
       } catch (error) {
         console.error('加载仪表板数据失败:', error);
         setError('加载数据失败');
@@ -115,8 +112,12 @@ const Dashboard: React.FC = () => {
     }
   ];
 
-  // 使用真实统计数据
-  const stats = realStats;
+  // 使用真实统计数据，没有数据时显示0
+  const stats = realStats.map(stat => ({
+    ...stat,
+    value: stat.value || 0,
+    change: stat.value > 0 ? stat.change : '0'
+  }));
 
   return (
     <div className="p-1 sm:p-2 space-y-1">
@@ -204,66 +205,5 @@ const Dashboard: React.FC = () => {
   );
 };
 
-// 模拟数据生成函数
-function generateMockAnalytics() {
-  const data = [];
-  const today = new Date();
-  
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(date.getDate() - i);
-    
-    data.push({
-      projectId: 'mock-project',
-      date: date.toISOString().split('T')[0],
-      pageViews: Math.floor(Math.random() * 1000) + 500,
-      uniqueVisitors: Math.floor(Math.random() * 500) + 200,
-      bounceRate: Math.random() * 0.5 + 0.2,
-      avgSessionDuration: Math.random() * 300 + 60,
-      topPages: [
-        { path: '/', views: Math.floor(Math.random() * 100) + 50 },
-        { path: '/about', views: Math.floor(Math.random() * 50) + 20 },
-        { path: '/contact', views: Math.floor(Math.random() * 30) + 10 }
-      ],
-      topCountries: [
-        { country: 'US', views: Math.floor(Math.random() * 200) + 100 },
-        { country: 'CN', views: Math.floor(Math.random() * 150) + 80 },
-        { country: 'JP', views: Math.floor(Math.random() * 100) + 50 }
-      ],
-      topDevices: [
-        { device: 'Desktop', views: Math.floor(Math.random() * 300) + 200 },
-        { device: 'Mobile', views: Math.floor(Math.random() * 200) + 100 },
-        { device: 'Tablet', views: Math.floor(Math.random() * 50) + 20 }
-      ],
-      topBrowsers: [
-        { browser: 'Chrome', views: Math.floor(Math.random() * 400) + 300 },
-        { browser: 'Firefox', views: Math.floor(Math.random() * 100) + 50 },
-        { browser: 'Safari', views: Math.floor(Math.random() * 80) + 40 }
-      ]
-    });
-  }
-  
-  return data;
-}
-
-function generateMockRealtime() {
-  const data = [];
-  const now = new Date();
-  
-  for (let i = 0; i < 10; i++) {
-    const timestamp = new Date(now.getTime() - i * 60000); // 每分钟一个数据点
-    
-    data.push({
-      projectId: 'mock-project',
-      timestamp: timestamp.toISOString(),
-      activeUsers: Math.floor(Math.random() * 50) + 10,
-      pageViews: Math.floor(Math.random() * 100) + 20,
-      errors: Math.floor(Math.random() * 5),
-      avgResponseTime: Math.random() * 200 + 100
-    });
-  }
-  
-  return data;
-}
 
 export default Dashboard;

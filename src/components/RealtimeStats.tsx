@@ -24,11 +24,11 @@ const RealtimeStats: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // 计算实时统计数据
-  const totalActiveUsers = realtimeData.reduce((sum, data) => sum + data.activeUsers, 0);
-  const totalPageViews = realtimeData.reduce((sum, data) => sum + data.pageViews, 0);
-  const totalErrors = realtimeData.reduce((sum, data) => sum + data.errors, 0);
-  const avgResponseTime = realtimeData.reduce((sum, data) => sum + data.avgResponseTime, 0) / realtimeData.length || 0;
+  // 计算实时统计数据，没有数据时显示0
+  const totalActiveUsers = realtimeData.length > 0 ? realtimeData.reduce((sum, data) => sum + data.activeUsers, 0) : 0;
+  const totalPageViews = realtimeData.length > 0 ? realtimeData.reduce((sum, data) => sum + data.pageViews, 0) : 0;
+  const totalErrors = realtimeData.length > 0 ? realtimeData.reduce((sum, data) => sum + data.errors, 0) : 0;
+  const avgResponseTime = realtimeData.length > 0 ? realtimeData.reduce((sum, data) => sum + data.avgResponseTime, 0) / realtimeData.length : 0;
 
   const stats = [
     {
@@ -126,26 +126,33 @@ const RealtimeStats: React.FC = () => {
         <div className="mt-6">
           <h4 className="text-sm font-medium mb-3">实时数据流</h4>
           <div className="space-y-2 max-h-32 overflow-y-auto">
-            {realtimeData.slice(0, 5).map((data, index) => (
-              <motion.div
-                key={data.timestamp}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="flex items-center justify-between p-2 bg-muted rounded-lg text-sm"
-              >
-                <div className="flex items-center space-x-2">
-                  <div className="h-2 w-2 rounded-full bg-green-500" />
-                  <span>{new Date(data.timestamp).toLocaleTimeString()}</span>
-                </div>
-                <div className="flex items-center space-x-4 text-xs text-muted-foreground">
-                  <span>{data.activeUsers} 用户</span>
-                  <span>{data.pageViews} 浏览</span>
-                  <span>{data.errors} 错误</span>
-                  <span>{data.avgResponseTime.toFixed(0)}ms</span>
-                </div>
-              </motion.div>
-            ))}
+            {realtimeData.length > 0 ? (
+              realtimeData.slice(0, 5).map((data, index) => (
+                <motion.div
+                  key={data.timestamp}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  className="flex items-center justify-between p-2 bg-muted rounded-lg text-sm"
+                >
+                  <div className="flex items-center space-x-2">
+                    <div className="h-2 w-2 rounded-full bg-green-500" />
+                    <span>{new Date(data.timestamp).toLocaleTimeString()}</span>
+                  </div>
+                  <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                    <span>{data.activeUsers} 用户</span>
+                    <span>{data.pageViews} 浏览</span>
+                    <span>{data.errors} 错误</span>
+                    <span>{data.avgResponseTime.toFixed(0)}ms</span>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              <div className="text-center py-4 text-muted-foreground">
+                <p className="text-sm">暂无实时数据</p>
+                <p className="text-xs">请确保项目已连接并正常运行</p>
+              </div>
+            )}
           </div>
         </div>
       </CardContent>
