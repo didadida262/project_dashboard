@@ -123,8 +123,11 @@ const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
 
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-muted-foreground">
-        暂无数据
+      <div className="flex items-center justify-center h-24 text-muted-foreground">
+        <div className="text-center">
+          <p className="text-sm">暂无数据</p>
+          <p className="text-xs text-muted-foreground mt-1">请确保项目已连接并正常运行</p>
+        </div>
       </div>
     );
   }
