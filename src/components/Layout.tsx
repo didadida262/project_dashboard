@@ -37,7 +37,7 @@ const Layout: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex">
       {/* 移动端侧边栏遮罩 */}
       {sidebarOpen && isMobile && (
         <motion.div
@@ -49,17 +49,15 @@ const Layout: React.FC = () => {
         />
       )}
 
-      {/* 侧边栏 */}
+      {/* 侧边栏 - 固定宽度 */}
       <motion.div
         initial={{ x: isMobile ? -300 : 0 }}
         animate={{ x: sidebarOpen ? 0 : (isMobile ? -300 : 0) }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 bg-card border-r border-border',
+          'bg-card border-r border-border',
           // 移动端：全宽侧边栏
-          isMobile ? 'w-80' : 'w-64',
-          // 桌面端：静态显示
-          !isMobile && 'lg:translate-x-0 lg:static lg:inset-0',
+          isMobile ? 'w-80 fixed inset-y-0 left-0 z-50' : 'w-64',
           // 移动端：条件显示
           isMobile && (sidebarOpen ? 'translate-x-0' : '-translate-x-full')
         )}
@@ -108,13 +106,8 @@ const Layout: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* 主内容区 */}
-      <div className={cn(
-        // 桌面端：有左边距
-        !isMobile && 'lg:pl-64',
-        // 移动端：无左边距
-        isMobile && 'w-full'
-      )}>
+      {/* 主内容区 - flex: 1 */}
+      <div className="flex-1 flex flex-col min-w-0">
         {/* 顶部导航栏 */}
         <header className="sticky top-0 z-30 flex h-12 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-2">
           <div className="flex items-center space-x-2">
