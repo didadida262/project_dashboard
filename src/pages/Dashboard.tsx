@@ -55,14 +55,35 @@ const Dashboard: React.FC = () => {
         setLoading('realtime', true);
 
         if (selectedProject === 'all') {
-          // 显示所有项目的数据
-          setAnalyticsData([]);
-          setRealtimeData([]);
+          // 获取所有项目的分析数据
+          const allAnalytics = [];
+          const allRealtime = [];
+          
+          for (const project of projects) {
+            try {
+              const analytics = await ApiService.getAnalytics(project.id, '7days');
+              const realtime = await ApiService.getRealtimeData(project.id);
+              allAnalytics.push(...analytics);
+              allRealtime.push(...realtime);
+            } catch (error) {
+              console.warn(`获取项目 ${project.name} 数据失败:`, error);
+            }
+          }
+          
+          setAnalyticsData(allAnalytics);
+          setRealtimeData(allRealtime);
         } else {
-          // 显示特定项目的数据
-          // 这里可以根据项目ID加载特定数据
-          setAnalyticsData([]);
-          setRealtimeData([]);
+          // 获取特定项目的数据
+          try {
+            const analytics = await ApiService.getAnalytics(selectedProject, '7days');
+            const realtime = await ApiService.getRealtimeData(selectedProject);
+            setAnalyticsData(analytics);
+            setRealtimeData(realtime);
+          } catch (error) {
+            console.warn(`获取项目数据失败:`, error);
+            setAnalyticsData([]);
+            setRealtimeData([]);
+          }
         }
       } catch (error) {
         console.error('加载仪表板数据失败:', error);
@@ -73,8 +94,10 @@ const Dashboard: React.FC = () => {
       }
     };
 
-    loadDashboardData();
-  }, [selectedProject, setLoading, setError, setAnalyticsData, setRealtimeData]);
+    if (projects.length > 0) {
+      loadDashboardData();
+    }
+  }, [selectedProject, projects, setLoading, setError, setAnalyticsData, setRealtimeData]);
 
   // 计算统计数据
   const totalProjects = projects.length;
@@ -283,6 +306,34 @@ const Dashboard: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* 数据配置提示 */}
+      {analyticsData.length === 0 && realtimeData.length === 0 && (
+        <Card className="border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950">
+          <CardHeader>
+            <CardTitle className="text-amber-800 dark:text-amber-200">数据配置提示</CardTitle>
+            <CardDescription className="text-amber-700 dark:text-amber-300">
+              要获取真实数据，请配置Vercel API Token
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <p className="text-sm text-amber-700 dark:text-amber-300">
+                1. 前往 <a href="https://vercel.com/account/tokens" target="_blank" rel="noopener noreferrer" className="underline">Vercel Tokens</a> 创建API Token
+              </p>
+              <p className="text-sm text-amber-700 dark:text-amber-300">
+                2. 在项目根目录创建 <code className="bg-amber-100 dark:bg-amber-900 px-1 rounded">.env.local</code> 文件
+              </p>
+              <p className="text-sm text-amber-700 dark:text-amber-300">
+                3. 添加 <code className="bg-amber-100 dark:bg-amber-900 px-1 rounded">VITE_VERCEL_TOKEN=your_token_here</code>
+              </p>
+              <p className="text-sm text-amber-700 dark:text-amber-300">
+                4. 重启开发服务器
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* 项目列表 */}
       <Card>

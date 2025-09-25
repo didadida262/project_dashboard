@@ -98,13 +98,22 @@ export class ApiService {
   // 获取项目分析数据
   static async getAnalytics(projectId: string, timeRange: string): Promise<AnalyticsData[]> {
     try {
+      // 检查是否有Vercel Token
+      const token = localStorage.getItem('vercel_token') || ENV_CONFIG.VERCEL_TOKEN;
+      if (!token) {
+        console.warn('未配置Vercel Token，无法获取真实数据');
+        return [];
+      }
+
+      // 尝试从Vercel API获取真实数据
       const response = await api.get<ApiResponse<AnalyticsData[]>>(
         `/analytics/${projectId}?timeRange=${timeRange}`
       );
       return response.data.data;
     } catch (error) {
       console.error('获取分析数据失败:', error);
-      throw error;
+      // 返回空数组而不是抛出错误，避免阻塞UI
+      return [];
     }
   }
 
@@ -124,11 +133,20 @@ export class ApiService {
   // 获取实时数据
   static async getRealtimeData(projectId: string): Promise<RealtimeData[]> {
     try {
+      // 检查是否有Vercel Token
+      const token = localStorage.getItem('vercel_token') || ENV_CONFIG.VERCEL_TOKEN;
+      if (!token) {
+        console.warn('未配置Vercel Token，无法获取真实数据');
+        return [];
+      }
+
+      // 尝试从Vercel API获取真实数据
       const response = await api.get<ApiResponse<RealtimeData[]>>(`/realtime/${projectId}`);
       return response.data.data;
     } catch (error) {
       console.error('获取实时数据失败:', error);
-      throw error;
+      // 返回空数组而不是抛出错误，避免阻塞UI
+      return [];
     }
   }
 
