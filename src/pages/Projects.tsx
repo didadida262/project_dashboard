@@ -63,7 +63,7 @@ const Projects: React.FC = () => {
   };
 
   return (
-    <div className="p-1 sm:p-2 space-y-2 sm:space-y-3">
+    <div className="p-4 sm:p-6 space-y-6">
       {/* 页面标题 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
@@ -85,7 +85,7 @@ const Projects: React.FC = () => {
       </div>
 
       {/* 项目统计 */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">总项目数</CardTitle>
