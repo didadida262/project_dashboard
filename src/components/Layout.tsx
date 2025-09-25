@@ -54,19 +54,19 @@ const Layout: React.FC = () => {
         animate={{ x: sidebarOpen ? 0 : -300 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border',
+          'fixed inset-y-0 left-0 z-50 w-48 bg-card border-r border-border',
           'lg:translate-x-0 lg:static lg:inset-0',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
         <div className="flex h-full flex-col">
           {/* Logo */}
-          <div className="flex h-16 items-center justify-between px-6">
+          <div className="flex h-12 items-center justify-between px-3">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">V</span>
+              <div className="h-6 w-6 rounded-lg bg-primary flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-xs">V</span>
               </div>
-              <span className="text-lg font-semibold">Vercel Dashboard</span>
+              <span className="text-sm font-semibold">Dashboard</span>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
@@ -77,7 +77,7 @@ const Layout: React.FC = () => {
           </div>
 
           {/* 导航菜单 */}
-          <nav className="flex-1 space-y-1 px-4 py-4">
+          <nav className="flex-1 space-y-1 px-2 py-2">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
               return (
@@ -85,7 +85,7 @@ const Layout: React.FC = () => {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'flex items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                    'flex items-center space-x-2 rounded-lg px-2 py-1.5 text-xs font-medium transition-colors',
                     isActive
                       ? 'bg-primary text-primary-foreground'
                       : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
@@ -93,7 +93,7 @@ const Layout: React.FC = () => {
                   whileHover={{ x: 4 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <item.icon className="h-5 w-5" />
+                  <item.icon className="h-4 w-4" />
                   <span>{item.name}</span>
                 </motion.a>
               );
@@ -101,39 +101,39 @@ const Layout: React.FC = () => {
           </nav>
 
           {/* 底部操作 */}
-          <div className="border-t border-border p-4 space-y-2">
+          <div className="border-t border-border p-2 space-y-1">
             <button
               onClick={toggleTheme}
-              className="flex w-full items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+              className="flex w-full items-center space-x-2 rounded-lg px-2 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               {settings.theme === 'dark' ? (
-                <Sun className="h-5 w-5" />
+                <Sun className="h-4 w-4" />
               ) : (
-                <Moon className="h-5 w-5" />
+                <Moon className="h-4 w-4" />
               )}
-              <span>切换主题</span>
+              <span>主题</span>
             </button>
             
-            <button className="flex w-full items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
-              <RefreshCw className="h-5 w-5" />
-              <span>刷新数据</span>
+            <button className="flex w-full items-center space-x-2 rounded-lg px-2 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+              <RefreshCw className="h-4 w-4" />
+              <span>刷新</span>
             </button>
           </div>
         </div>
       </motion.div>
 
       {/* 主内容区 */}
-      <div className="lg:pl-64">
+      <div className="lg:pl-48">
         {/* 顶部导航栏 */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
-          <div className="flex items-center space-x-4">
+        <header className="sticky top-0 z-30 flex h-12 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-2">
+          <div className="flex items-center space-x-2">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md hover:bg-accent"
+              className="lg:hidden p-1 rounded-md hover:bg-accent"
             >
-              <Menu className="h-5 w-5" />
+              <Menu className="h-4 w-4" />
             </button>
-            <h1 className="text-xl font-semibold">
+            <h1 className="text-lg font-semibold">
               {navigation.find(item => item.href === location.pathname)?.name || '概览'}
             </h1>
           </div>

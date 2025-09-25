@@ -115,24 +115,7 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="p-4 space-y-4">
-      {/* 页面标题 */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">仪表板</h1>
-          <p className="text-muted-foreground">
-            监控您的Vercel项目性能和访问数据
-          </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm">
-            导出报告
-          </Button>
-          <Button size="sm">
-            刷新数据
-          </Button>
-        </div>
-      </div>
+    <div className="p-2 space-y-3">
 
       {/* 统计卡片 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">

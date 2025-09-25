@@ -62,7 +62,7 @@ const Analytics: React.FC = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-2 space-y-3">
       {/* 页面标题 */}
       <div className="flex items-center justify-between">
         <div>

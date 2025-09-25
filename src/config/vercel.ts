@@ -2,9 +2,8 @@
 export const VERCEL_CONFIG = {
   // 您的Vercel项目URL列表 - 只需要输入项目地址
   projectUrls: [
-    'https://my-portfolio.vercel.app',
-    'https://blog-site.vercel.app', 
-    'https://ecommerce.vercel.app'
+    'https://hhvcg-blog-v2.vercel.app/',
+    'https://project-cesium.vercel.app/'
   ],
   
   // API配置
