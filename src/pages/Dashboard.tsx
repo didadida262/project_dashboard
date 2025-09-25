@@ -115,10 +115,10 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="p-1 space-y-2">
+    <div className="p-1 sm:p-2 space-y-2">
 
       {/* 统计卡片 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.title}
@@ -156,7 +156,7 @@ const Dashboard: React.FC = () => {
       <RealtimeStats />
 
       {/* 图表区域 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
             <CardTitle>访问量趋势</CardTitle>

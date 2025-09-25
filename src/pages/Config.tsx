@@ -47,11 +47,11 @@ const Config: React.FC = () => {
   };
 
   return (
-    <div className="p-2 space-y-3">
+    <div className="p-1 sm:p-2 space-y-2 sm:space-y-3">
       {/* 页面标题 */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">项目配置</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">项目配置</h1>
+        <p className="text-sm sm:text-base text-muted-foreground">
           配置您要监控的Vercel项目信息
         </p>
       </div>

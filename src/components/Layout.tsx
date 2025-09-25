@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -18,8 +18,20 @@ import { cn } from '@/utils';
 
 const Layout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const { settings, setSettings } = useDashboardStore();
+
+  // 检测屏幕尺寸
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   const navigation = [
     { name: '概览', href: '/', icon: LayoutDashboard },
@@ -38,25 +50,29 @@ const Layout: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* 移动端侧边栏遮罩 */}
-      {sidebarOpen && (
+      {sidebarOpen && isMobile && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          className="fixed inset-0 z-40 bg-black/50"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* 侧边栏 */}
       <motion.div
-        initial={{ x: -300 }}
-        animate={{ x: sidebarOpen ? 0 : -300 }}
+        initial={{ x: isMobile ? -300 : 0 }}
+        animate={{ x: sidebarOpen ? 0 : (isMobile ? -300 : 0) }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-32 bg-card border-r border-border',
-          'lg:translate-x-0 lg:static lg:inset-0',
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          'fixed inset-y-0 left-0 z-50 bg-card border-r border-border',
+          // 移动端：全宽侧边栏
+          isMobile ? 'w-64' : 'w-32',
+          // 桌面端：静态显示
+          !isMobile && 'lg:translate-x-0 lg:static lg:inset-0',
+          // 移动端：条件显示
+          isMobile && (sidebarOpen ? 'translate-x-0' : '-translate-x-full')
         )}
       >
         <div className="flex h-full flex-col">
@@ -123,17 +139,30 @@ const Layout: React.FC = () => {
       </motion.div>
 
       {/* 主内容区 */}
-      <div className="lg:pl-32">
+      <div className={cn(
+        // 桌面端：有左边距
+        !isMobile && 'lg:pl-32',
+        // 移动端：无左边距
+        isMobile && 'w-full'
+      )}>
         {/* 顶部导航栏 */}
         <header className="sticky top-0 z-30 flex h-12 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-2">
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-1 rounded-md hover:bg-accent"
+              className={cn(
+                'p-1 rounded-md hover:bg-accent',
+                // 移动端：显示菜单按钮
+                isMobile ? 'block' : 'lg:hidden'
+              )}
             >
               <Menu className="h-4 w-4" />
             </button>
-            <h1 className="text-lg font-semibold">
+            <h1 className={cn(
+              'font-semibold',
+              // 移动端：较小字体
+              isMobile ? 'text-base' : 'text-lg'
+            )}>
               {navigation.find(item => item.href === location.pathname)?.name || '概览'}
             </h1>
           </div>

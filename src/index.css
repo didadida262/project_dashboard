@@ -97,6 +97,25 @@
   @apply bg-muted-foreground/30;
 }
 
+/* 移动端优化 */
+@media (max-width: 768px) {
+  /* 触摸友好的按钮 */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* 移动端滚动优化 */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* 防止缩放 */
+  input, textarea, select {
+    font-size: 16px;
+  }
+}
+
 /* 动画效果 */
 .animate-fade-in {
   animation: fadeIn 0.5s ease-in-out;

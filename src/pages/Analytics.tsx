@@ -62,23 +62,24 @@ const Analytics: React.FC = () => {
   ];
 
   return (
-    <div className="p-2 space-y-3">
+    <div className="p-1 sm:p-2 space-y-2 sm:space-y-3">
       {/* 页面标题 */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">数据分析</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">数据分析</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             深入了解您的项目访问数据和用户行为
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-2" />
-            导出数据
+          <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+            <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">导出数据</span>
+            <span className="sm:hidden">导出</span>
           </Button>
-          <Button size="sm">
-            <Filter className="h-4 w-4 mr-2" />
-            筛选
+          <Button size="sm" className="text-xs sm:text-sm">
+            <Filter className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">筛选</span>
           </Button>
         </div>
       </div>
@@ -132,7 +133,7 @@ const Analytics: React.FC = () => {
       </Card>
 
       {/* 关键指标卡片 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         {metrics.map((metric, index) => (
           <motion.div
             key={metric.key}
@@ -167,7 +168,7 @@ const Analytics: React.FC = () => {
       </div>
 
       {/* 图表区域 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         {/* 访问量趋势图 */}
         <Card>
           <CardHeader>
