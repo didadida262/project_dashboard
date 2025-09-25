@@ -1,28 +1,10 @@
 // Vercel配置
 export const VERCEL_CONFIG = {
-  // 您的Vercel项目配置
-  projects: [
-    {
-      id: 'project-1',
-      name: 'My Portfolio',
-      url: 'https://my-portfolio.vercel.app',
-      framework: 'Next.js',
-      region: 'iad1'
-    },
-    {
-      id: 'project-2', 
-      name: 'Blog Site',
-      url: 'https://blog-site.vercel.app',
-      framework: 'React',
-      region: 'hnd1'
-    },
-    {
-      id: 'project-3',
-      name: 'E-commerce',
-      url: 'https://ecommerce.vercel.app', 
-      framework: 'Vue.js',
-      region: 'sfo1'
-    }
+  // 您的Vercel项目URL列表 - 只需要输入项目地址
+  projectUrls: [
+    'https://my-portfolio.vercel.app',
+    'https://blog-site.vercel.app', 
+    'https://ecommerce.vercel.app'
   ],
   
   // API配置

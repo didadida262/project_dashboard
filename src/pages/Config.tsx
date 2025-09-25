@@ -12,43 +12,27 @@ import {
 
 interface ProjectConfig {
   id: string;
-  name: string;
   url: string;
-  framework: string;
-  region: string;
 }
 
 const Config: React.FC = () => {
   const [projects, setProjects] = useState<ProjectConfig[]>([
     {
       id: 'project-1',
-      name: 'My Portfolio',
-      url: 'https://my-portfolio.vercel.app',
-      framework: 'Next.js',
-      region: 'iad1'
+      url: 'https://my-portfolio.vercel.app'
     }
   ]);
 
-  const [newProject, setNewProject] = useState<Omit<ProjectConfig, 'id'>>({
-    name: '',
-    url: '',
-    framework: 'Next.js',
-    region: 'iad1'
-  });
+  const [newProjectUrl, setNewProjectUrl] = useState('');
 
   const addProject = () => {
-    if (newProject.name && newProject.url) {
+    if (newProjectUrl.trim()) {
       const project: ProjectConfig = {
-        ...newProject,
-        id: `project-${Date.now()}`
+        id: `project-${Date.now()}`,
+        url: newProjectUrl.trim()
       };
       setProjects([...projects, project]);
-      setNewProject({
-        name: '',
-        url: '',
-        framework: 'Next.js',
-        region: 'iad1'
-      });
+      setNewProjectUrl('');
     }
   };
 
@@ -84,57 +68,18 @@ const Config: React.FC = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium">项目名称</label>
-              <input
-                type="text"
-                value={newProject.name}
-                onChange={(e) => setNewProject({...newProject, name: e.target.value})}
-                placeholder="输入项目名称"
-                className="w-full mt-1 px-3 py-2 border border-input rounded-md bg-background text-foreground"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium">项目URL</label>
-              <input
-                type="url"
-                value={newProject.url}
-                onChange={(e) => setNewProject({...newProject, url: e.target.value})}
-                placeholder="https://your-project.vercel.app"
-                className="w-full mt-1 px-3 py-2 border border-input rounded-md bg-background text-foreground"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium">框架</label>
-              <select
-                value={newProject.framework}
-                onChange={(e) => setNewProject({...newProject, framework: e.target.value})}
-                className="w-full mt-1 px-3 py-2 border border-input rounded-md bg-background text-foreground"
-              >
-                <option value="Next.js">Next.js</option>
-                <option value="React">React</option>
-                <option value="Vue.js">Vue.js</option>
-                <option value="Svelte">Svelte</option>
-                <option value="Angular">Angular</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div>
-              <label className="text-sm font-medium">区域</label>
-              <select
-                value={newProject.region}
-                onChange={(e) => setNewProject({...newProject, region: e.target.value})}
-                className="w-full mt-1 px-3 py-2 border border-input rounded-md bg-background text-foreground"
-              >
-                <option value="iad1">iad1 (US East)</option>
-                <option value="sfo1">sfo1 (US West)</option>
-                <option value="hnd1">hnd1 (Tokyo)</option>
-                <option value="sin1">sin1 (Singapore)</option>
-                <option value="fra1">fra1 (Frankfurt)</option>
-                <option value="lhr1">lhr1 (London)</option>
-              </select>
-            </div>
+          <div>
+            <label className="text-sm font-medium">Vercel项目URL</label>
+            <input
+              type="url"
+              value={newProjectUrl}
+              onChange={(e) => setNewProjectUrl(e.target.value)}
+              placeholder="https://your-project.vercel.app"
+              className="w-full mt-1 px-3 py-2 border border-input rounded-md bg-background text-foreground"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              只需要输入您的Vercel项目地址，系统会自动获取项目信息
+            </p>
           </div>
           <Button onClick={addProject} className="w-full">
             <Plus className="h-4 w-4 mr-2" />
@@ -163,13 +108,10 @@ const Config: React.FC = () => {
               >
                 <div className="flex-1">
                   <div className="flex items-center space-x-2">
-                    <h3 className="font-medium">{project.name}</h3>
-                    <span className="text-sm text-muted-foreground">
-                      {project.framework}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
-                      {project.region}
-                    </span>
+                    <h3 className="font-medium">
+                      {project.url.split('//')[1].split('.')[0].charAt(0).toUpperCase() + 
+                       project.url.split('//')[1].split('.')[0].slice(1)}
+                    </h3>
                   </div>
                   <div className="flex items-center space-x-2 mt-1">
                     <a

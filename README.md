@@ -98,16 +98,28 @@ src/
 
 ## 🔧 配置
 
-### Vercel API Token
-1. 访问 [Vercel Tokens页面](https://vercel.com/account/tokens)
-2. 创建新的API Token
-3. 在应用中输入Token进行连接
+### 简化配置 - 只需要项目URL
+1. 访问配置页面（左侧导航 → 配置）
+2. 输入您的Vercel项目地址，例如：`https://my-project.vercel.app`
+3. 系统会自动获取项目信息（名称、框架、区域等）
 
-### 环境变量
+### 环境变量（可选）
 创建 `.env.local` 文件：
 ```env
-VITE_VERCEL_API_URL=https://api.vercel.com
+VITE_VERCEL_TOKEN=your_vercel_api_token_here
+VITE_API_BASE_URL=https://api.vercel.com
+VITE_ENABLE_MOCK_DATA=false
 VITE_APP_TITLE=Vercel Dashboard
+```
+
+### 配置文件
+在 `src/config/vercel.ts` 中直接添加您的项目URL：
+```typescript
+projectUrls: [
+  'https://your-project1.vercel.app',
+  'https://your-project2.vercel.app',
+  'https://your-project3.vercel.app'
+]
 ```
 
 ## 📊 数据指标

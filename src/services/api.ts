@@ -73,17 +73,23 @@ export class ApiService {
 
   // 获取模拟项目数据
   private static getMockProjects(): VercelProject[] {
-    return VERCEL_CONFIG.projects.map((project, index) => ({
-      id: project.id,
-      name: project.name,
-      url: project.url,
-      framework: project.framework,
-      status: ['READY', 'BUILDING', 'ERROR', 'QUEUED'][index % 4] as any,
-      lastUpdated: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
-      healthScore: Math.floor(Math.random() * 40) + 60,
-      region: project.region,
-      createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString()
-    }));
+    return VERCEL_CONFIG.projectUrls.map((url, index) => {
+      const projectName = url.split('//')[1].split('.')[0];
+      const frameworks = ['Next.js', 'React', 'Vue.js', 'Svelte', 'Angular'];
+      const regions = ['iad1', 'sfo1', 'hnd1', 'sin1', 'fra1', 'lhr1'];
+      
+      return {
+        id: `project-${index + 1}`,
+        name: projectName.charAt(0).toUpperCase() + projectName.slice(1),
+        url: url,
+        framework: frameworks[index % frameworks.length],
+        status: ['READY', 'BUILDING', 'ERROR', 'QUEUED'][index % 4] as any,
+        lastUpdated: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
+        healthScore: Math.floor(Math.random() * 40) + 60,
+        region: regions[index % regions.length],
+        createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString()
+      };
+    });
   }
 
   // 获取项目分析数据
