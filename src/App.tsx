@@ -9,10 +9,11 @@ import Projects from '@/pages/Projects';
 import Analytics from '@/pages/Analytics';
 import Settings from '@/pages/Settings';
 import Login from '@/pages/Login';
-import { Toaster } from '@/components/ui/Toaster';
+import { useToast, Toaster } from '@/components/ui/Toaster';
 
 function App() {
   const { setLoading, setError, setProjects } = useDashboardStore();
+  const { toasts, removeToast, toast } = useToast();
 
   useEffect(() => {
     // 初始化应用
@@ -59,7 +60,7 @@ function App() {
             <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>
-        <Toaster />
+        <Toaster toasts={toasts} onRemove={removeToast} />
       </motion.div>
     </div>
   );
