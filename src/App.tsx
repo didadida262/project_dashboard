@@ -22,15 +22,15 @@ function App() {
       try {
         setLoading('projects', true);
         
-        // 检查是否有保存的token
+        // 直接获取项目列表（会优先使用配置的项目）
+        const projects = await ApiService.getProjects();
+        setProjects(projects);
+        
+        // 如果有token，验证其有效性
         const token = localStorage.getItem('vercel_token');
         if (token) {
           const isValid = await ApiService.validateToken();
-          if (isValid) {
-            // 获取项目列表
-            const projects = await ApiService.getProjects();
-            setProjects(projects);
-          } else {
+          if (!isValid) {
             localStorage.removeItem('vercel_token');
           }
         }
