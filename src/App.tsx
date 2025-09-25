@@ -22,6 +22,9 @@ function App() {
       try {
         setLoading('projects', true);
         
+        // 测试API连接
+        await ApiService.testConnection();
+        
         // 直接获取项目列表（会优先使用配置的项目）
         const projects = await ApiService.getProjects();
         setProjects(projects);

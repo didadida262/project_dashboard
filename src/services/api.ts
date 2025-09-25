@@ -105,17 +105,20 @@ export class ApiService {
         return [];
       }
 
-      // 尝试从Vercel API获取真实数据
-      const response = await api.get<ApiResponse<AnalyticsData[]>>(
-        `/analytics/${projectId}?timeRange=${timeRange}`
-      );
-      return response.data.data;
+      console.log(`正在获取项目 ${projectId} 的分析数据...`);
+      
+      // 只从Vercel API获取真实数据
+      const response = await api.get(`/v1/analytics/${projectId}?timeRange=${timeRange}`);
+      console.log('分析数据响应:', response.data);
+      return response.data.data || [];
     } catch (error) {
       console.error('获取分析数据失败:', error);
-      // 返回空数组而不是抛出错误，避免阻塞UI
+      console.error('错误详情:', error.response?.data || error.message);
+      // 返回空数组，不生成任何模拟数据
       return [];
     }
   }
+
 
   // 获取项目性能数据
   static async getPerformance(projectId: string, timeRange: string): Promise<PerformanceData[]> {
@@ -140,15 +143,20 @@ export class ApiService {
         return [];
       }
 
-      // 尝试从Vercel API获取真实数据
-      const response = await api.get<ApiResponse<RealtimeData[]>>(`/realtime/${projectId}`);
-      return response.data.data;
+      console.log(`正在获取项目 ${projectId} 的实时数据...`);
+      
+      // 只从Vercel API获取真实数据
+      const response = await api.get(`/v1/realtime/${projectId}`);
+      console.log('实时数据响应:', response.data);
+      return response.data.data || [];
     } catch (error) {
       console.error('获取实时数据失败:', error);
-      // 返回空数组而不是抛出错误，避免阻塞UI
+      console.error('错误详情:', error.response?.data || error.message);
+      // 返回空数组，不生成任何模拟数据
       return [];
     }
   }
+
 
   // 批量获取多个项目的数据
   static async getBatchAnalytics(projectIds: string[], timeRange: string): Promise<AnalyticsData[]> {
@@ -181,11 +189,26 @@ export class ApiService {
   // 验证Token有效性
   static async validateToken(): Promise<boolean> {
     try {
-      const response = await api.get<ApiResponse<boolean>>('/auth/validate');
-      return response.data.data;
+      console.log('正在验证Token有效性...');
+      const response = await api.get('/v1/user');
+      console.log('Token验证成功:', response.data);
+      return true;
     } catch (error) {
       console.error('验证Token失败:', error);
+      console.error('错误详情:', error.response?.data || error.message);
       return false;
+    }
+  }
+
+  // 测试API连接
+  static async testConnection(): Promise<void> {
+    try {
+      console.log('正在测试API连接...');
+      const response = await api.get('/v1/user');
+      console.log('API连接成功:', response.data);
+    } catch (error) {
+      console.error('API连接失败:', error);
+      console.error('错误详情:', error.response?.data || error.message);
     }
   }
 }
