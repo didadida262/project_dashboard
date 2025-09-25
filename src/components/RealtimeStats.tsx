@@ -12,7 +12,11 @@ import {
 } from 'lucide-react';
 import { formatNumber } from '@/utils';
 
-const RealtimeStats: React.FC = () => {
+interface RealtimeStatsProps {
+  selectedProject?: string;
+}
+
+const RealtimeStats: React.FC<RealtimeStatsProps> = ({ selectedProject = 'all' }) => {
   const { realtimeData } = useDashboardStore();
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -72,7 +76,9 @@ const RealtimeStats: React.FC = () => {
           <div>
             <CardTitle className="flex items-center space-x-2">
               <Activity className="h-5 w-5" />
-              <span>实时监控</span>
+              <span>
+                {selectedProject === 'all' ? '实时监控' : '项目实时监控'}
+              </span>
             </CardTitle>
             <CardDescription>
               当前时间: {currentTime.toLocaleTimeString()}

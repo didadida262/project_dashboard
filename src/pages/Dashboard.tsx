@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useDashboardStore } from '@/store';
 import { ApiService } from '@/services/api';
@@ -11,7 +11,8 @@ import {
   AlertTriangle,
   Globe,
   Smartphone,
-  Monitor
+  Monitor,
+  ChevronDown
 } from 'lucide-react';
 import { formatNumber, formatPercentage, getRelativeTime } from '@/utils';
 import ProjectList from '@/components/ProjectList';
@@ -31,15 +32,38 @@ const Dashboard: React.FC = () => {
     setRealtimeData
   } = useDashboardStore();
 
+  const [selectedProject, setSelectedProject] = useState<string>('all');
+  const [showProjectSelector, setShowProjectSelector] = useState(false);
+
+  // 点击外部关闭选择器
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.project-selector')) {
+        setShowProjectSelector(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
         setLoading('analytics', true);
         setLoading('realtime', true);
 
-        // 只加载真实数据，不生成模拟数据
-        setAnalyticsData([]);
-        setRealtimeData([]);
+        if (selectedProject === 'all') {
+          // 显示所有项目的数据
+          setAnalyticsData([]);
+          setRealtimeData([]);
+        } else {
+          // 显示特定项目的数据
+          // 这里可以根据项目ID加载特定数据
+          setAnalyticsData([]);
+          setRealtimeData([]);
+        }
       } catch (error) {
         console.error('加载仪表板数据失败:', error);
         setError('加载数据失败');
@@ -50,7 +74,7 @@ const Dashboard: React.FC = () => {
     };
 
     loadDashboardData();
-  }, [setLoading, setError, setAnalyticsData, setRealtimeData]);
+  }, [selectedProject, setLoading, setError, setAnalyticsData, setRealtimeData]);
 
   // 计算统计数据
   const totalProjects = projects.length;
@@ -121,6 +145,66 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 space-y-6 min-h-0">
+      {/* 项目选择器 */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <h2 className="text-lg font-semibold">项目监控</h2>
+          <div className="relative project-selector">
+            <button
+              onClick={() => setShowProjectSelector(!showProjectSelector)}
+              className="flex items-center space-x-2 px-3 py-2 border border-border rounded-lg hover:bg-accent transition-colors"
+            >
+              <span>
+                {selectedProject === 'all' 
+                  ? '所有项目' 
+                  : projects.find(p => p.id === selectedProject)?.name || '选择项目'
+                }
+              </span>
+              <ChevronDown className="h-4 w-4" />
+            </button>
+            
+            {showProjectSelector && (
+              <div className="absolute top-full left-0 mt-1 w-48 bg-card border border-border rounded-lg shadow-lg z-10">
+                <div className="p-2">
+                  <button
+                    onClick={() => {
+                      setSelectedProject('all');
+                      setShowProjectSelector(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-md hover:bg-accent transition-colors ${
+                      selectedProject === 'all' ? 'bg-accent' : ''
+                    }`}
+                  >
+                    所有项目
+                  </button>
+                  {projects.map((project) => (
+                    <button
+                      key={project.id}
+                      onClick={() => {
+                        setSelectedProject(project.id);
+                        setShowProjectSelector(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 rounded-md hover:bg-accent transition-colors ${
+                        selectedProject === project.id ? 'bg-accent' : ''
+                      }`}
+                    >
+                      {project.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        <div className="text-sm text-muted-foreground">
+          {selectedProject === 'all' 
+            ? `共 ${projects.length} 个项目`
+            : `当前项目: ${projects.find(p => p.id === selectedProject)?.name}`
+          }
+        </div>
+      </div>
+
       {/* 统计卡片 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {stats.map((stat, index) => (
@@ -157,14 +241,19 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* 实时统计 */}
-      <RealtimeStats />
+      <RealtimeStats selectedProject={selectedProject} />
 
       {/* 图表区域 */}
       <div className="flex flex-col lg:flex-row gap-6">
         <Card className="flex-1">
           <CardHeader>
             <CardTitle>访问量趋势</CardTitle>
-            <CardDescription>过去7天的页面访问量变化</CardDescription>
+            <CardDescription>
+              {selectedProject === 'all' 
+                ? '所有项目的访问量变化' 
+                : `${projects.find(p => p.id === selectedProject)?.name} 的访问量变化`
+              }
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <AnalyticsChart 
@@ -178,11 +267,16 @@ const Dashboard: React.FC = () => {
         <Card className="flex-1">
           <CardHeader>
             <CardTitle>项目状态分布</CardTitle>
-            <CardDescription>各状态项目的数量统计</CardDescription>
+            <CardDescription>
+              {selectedProject === 'all' 
+                ? '各状态项目的数量统计' 
+                : `${projects.find(p => p.id === selectedProject)?.name} 的状态信息`
+              }
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <AnalyticsChart 
-              data={projects}
+              data={selectedProject === 'all' ? projects : [projects.find(p => p.id === selectedProject)].filter(Boolean)}
               type="pie"
               height={200}
             />
