@@ -8,9 +8,6 @@ import {
   Settings, 
   Menu, 
   X,
-  Moon,
-  Sun,
-  RefreshCw,
   Cog
 } from 'lucide-react';
 import { useDashboardStore } from '@/store';
@@ -20,8 +17,6 @@ const Layout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
-  const { settings, setSettings } = useDashboardStore();
-
   // 检测屏幕尺寸
   useEffect(() => {
     const checkScreenSize = () => {
@@ -40,12 +35,6 @@ const Layout: React.FC = () => {
     { name: '配置', href: '/config', icon: Cog },
     { name: '设置', href: '/settings', icon: Settings },
   ];
-
-  const toggleTheme = () => {
-    const newTheme = settings.theme === 'dark' ? 'light' : 'dark';
-    setSettings({ theme: newTheme });
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -116,25 +105,6 @@ const Layout: React.FC = () => {
             })}
           </nav>
 
-          {/* 底部操作 */}
-          <div className="border-t border-border p-1 space-y-0.5">
-            <button
-              onClick={toggleTheme}
-              className="flex w-full items-center space-x-1 rounded px-1 py-1 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-            >
-              {settings.theme === 'dark' ? (
-                <Sun className="h-3 w-3" />
-              ) : (
-                <Moon className="h-3 w-3" />
-              )}
-              <span>主题</span>
-            </button>
-            
-            <button className="flex w-full items-center space-x-1 rounded px-1 py-1 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
-              <RefreshCw className="h-3 w-3" />
-              <span>刷新</span>
-            </button>
-          </div>
         </div>
       </motion.div>
 
