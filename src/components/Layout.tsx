@@ -177,14 +177,8 @@ const Layout: React.FC = () => {
         </header>
 
         {/* 页面内容 */}
-        <main className="flex-1">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Outlet />
-          </motion.div>
+        <main className="flex-1 min-h-0">
+          <Outlet />
         </main>
       </div>
     </div>

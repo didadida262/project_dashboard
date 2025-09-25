@@ -120,8 +120,7 @@ const Dashboard: React.FC = () => {
   }));
 
   return (
-    <div className="p-1 sm:p-2 space-y-1">
-
+    <div className="p-1 sm:p-2 space-y-1 min-h-0">
       {/* 统计卡片 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
         {stats.map((stat, index) => (
@@ -161,7 +160,7 @@ const Dashboard: React.FC = () => {
       <RealtimeStats />
 
       {/* 图表区域 */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
         <Card>
           <CardHeader>
             <CardTitle>访问量趋势</CardTitle>

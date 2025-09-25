@@ -85,7 +85,7 @@ const RealtimeStats: React.FC = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.title}
@@ -123,7 +123,7 @@ const RealtimeStats: React.FC = () => {
         </div>
 
         {/* 实时数据流 */}
-        <div className="mt-6">
+        <div className="mt-3">
           <h4 className="text-sm font-medium mb-3">实时数据流</h4>
           <div className="space-y-2 max-h-32 overflow-y-auto">
             {realtimeData.length > 0 ? (
